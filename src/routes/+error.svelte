@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Home, AlertCircle, HelpCircle, MessageCircleQuestion, ArrowRight } from 'lucide-svelte';
+	import { ArrowRight, House, CircleAlert, MessageCircleQuestionMark, LifeBuoy } from 'lucide-svelte';
 	import { page } from '$app/state';
 
 	export const data = {};
@@ -10,7 +10,7 @@
 	const getNavigations = () => {
 		const commonItems = [
 			{
-				icon: Home,
+				icon: House,
 				title: 'Go back home',
 				desc: 'Return to the main page of the website',
 				href: '/'
@@ -21,33 +21,33 @@
 			return [
 				...commonItems,
 				{
-					icon: MessageCircleQuestion,
+					icon: MessageCircleQuestionMark,
 					title: 'Community',
 					desc: 'Seek the right answers in our community',
 					href: __SITE_CONFIG__.community?.url || ''
 				},
 				{
-					icon: HelpCircle,
+					icon: LifeBuoy,
 					title: 'Support',
 					desc: 'Contact our support team for assistance by email',
-					href: {__SITE_CONFIG__.supportLink}
+					href: __SITE_CONFIG__.supportLink
 				}
 			];
 		} else {
 			return [
 				...commonItems,
 				{
-					icon: AlertCircle,
+					icon: CircleAlert,
 					title: 'Report problem',
 					desc: 'Let us know about this issue so we can fix it',
 					href: `https://github.com/${__SITE_CONFIG__.organizationName}/${__SITE_CONFIG__.projectName}/issues`,
 					target: '_blank'
 				},
 				{
-					icon: HelpCircle,
+					icon: LifeBuoy,
 					title: 'Support',
 					desc: 'Contact our support team for assistance by email',
-					href: {__SITE_CONFIG__.supportLink}
+					href: __SITE_CONFIG__.supportLink
 				}
 			];
 		}

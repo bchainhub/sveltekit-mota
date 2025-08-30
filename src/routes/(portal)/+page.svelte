@@ -1,16 +1,13 @@
 <!-- +page.svelte — ultra-compact intro (MOTA Starter) -->
 <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-	<div class="bg-white shadow overflow-hidden rounded-lg">
+	<div class="bg-white overflow-hidden">
 		<div class="px-4 py-5 sm:p-6">
 			<h1 class="text-4xl font-bold text-center mb-6">MOTA – SvelteKit Starter</h1>
 
 			<div class="mb-8">
 				<h2 class="text-2xl font-semibold mb-2">Install</h2>
 				<pre class="bg-gray-900 text-gray-100 text-sm rounded-md p-4 overflow-x-auto">
-curl -fsSL https://raw.githubusercontent.com/bchainhub/sveltekit-starter/main/sv-starter.sh | bash -s --</pre>
-				<p class="text-xs text-gray-500 mt-2">
-					(Explicit template:) <code>--template https://github.com/blockchainhub/sveltekit-mota.git</code>
-				</p>
+bash -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/bchainhub/sveltekit-starter/sv-starter.sh)"</pre>
 			</div>
 
 			<div class="mb-8">
@@ -22,6 +19,7 @@ curl -fsSL https://raw.githubusercontent.com/bchainhub/sveltekit-starter/main/sv
 					<li>Optional asset copy: <code>.editorconfig</code> (yes by default) and <code>.github</code> (no by default).</li>
 					<li>License: CORE (default) or common SPDX; updates <code>package.json</code> license field.</li>
 					<li>Single optional final commit; optional push (default no).</li>
+					<li>Remove +page.svelte in main routes and create new in (portal) routes.</li>
 				</ul>
 			</div>
 

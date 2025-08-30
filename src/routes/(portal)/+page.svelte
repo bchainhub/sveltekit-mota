@@ -1,6 +1,5 @@
-<!-- +page.svelte — ultra-compact intro (MOTA Starter) -->
 <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-	<div class="bg-white overflow-hidden">
+	<div class="overflow-hidden">
 		<div class="px-4 py-5 sm:p-6">
 			<h1 class="text-4xl font-bold text-center mb-6">MOTA – SvelteKit Starter</h1>
 
@@ -12,7 +11,7 @@ bash -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/bchainhub/sveltekit-starter/sv
 
 			<div class="mb-8">
 				<h2 class="text-2xl font-semibold mb-2">What it does</h2>
-				<ul class="list-disc list-inside pl-4 space-y-1 text-gray-800">
+				<ul class="list-disc list-inside pl-4 space-y-1">
 					<li>Runs <code>sv create</code> and installs core deps.</li>
 					<li>Optionally merges the MOTA template and reinstalls deps.</li>
 					<li>Augments <code>.gitignore</code> (+logs, editors; optional lockfile ignores).</li>
@@ -25,7 +24,7 @@ bash -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/bchainhub/sveltekit-starter/sv
 
 			<div class="mb-8">
 				<h2 class="text-2xl font-semibold mb-2">You choose during setup</h2>
-				<ul class="list-disc list-inside pl-4 space-y-1 text-gray-800">
+				<ul class="list-disc list-inside pl-4 space-y-1">
 					<li>Auth: None / <code>@auth/sveltekit</code> / <code>lucia</code></li>
 					<li>Data layer: Prisma, Drizzle, Supabase, Neon, MongoDB, Redis, Postgres, Xata, etc.</li>
 					<li>Assets: copy <code>.editorconfig</code> / <code>.github</code></li>
@@ -35,7 +34,7 @@ bash -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/bchainhub/sveltekit-starter/sv
 
 			<div>
 				<h2 class="text-2xl font-semibold mb-2">Next</h2>
-				<ol class="list-decimal pl-5 space-y-1 text-gray-800">
+				<ol class="list-decimal pl-5 space-y-1">
 					<li>Answer prompts (auth, DB, assets, license).</li>
 					<li>Modify <code>vite.config.ts</code> to your needs.</li>
 					<li>Update GPG keys or delete GPG keys directory.</li>

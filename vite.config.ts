@@ -17,7 +17,7 @@ const siteConfig: Config = {
 				src: '/img/logo.svg', // Logo path in static folder
 				alt: 'MOTA' // Logo alt attribute
 			},
-			style: 'auto', // Navbar style (auto, dark, light)
+			style: 'auto', // Navbar style (auto, transparent)
 			orientation: 'horizontal', // Navbar orientation (horizontal, vertical)
 			hideOnScroll: true, // Hide navbar on scroll down
 			iconExternal: true, // Icon for external links
@@ -27,7 +27,7 @@ const siteConfig: Config = {
 					label: 'Intro',
 					to: '/',
 					position: 'left',
-					icon: 'link'
+					icon: 'home'
 				}
 			],
 			authItems: [
@@ -99,7 +99,7 @@ const siteConfig: Config = {
 			respectPrefersColorScheme: false // Respect browser color scheme preference
 		},
 		auth: {
-			enabled: true,
+			enabled: false,
 			title: 'Connect'
 		}
 	},

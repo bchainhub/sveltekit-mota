@@ -57,7 +57,7 @@
 <footer class={`footer ${footerClass}`}>
 	<div class="container mx-auto py-4">
 		<nav aria-label="breadcrumb">
-			<ol class="inline-flex items-center rounded py-2 text-sm font-medium">
+			<ol class="inline-flex items-center rounded text-sm font-medium">
 				{#each pathSegments as segment, index}
 					<li class="inline-flex items-center" aria-current={segment.current ? 'page' : undefined}>
 						{#if index > 0}
@@ -76,7 +76,7 @@
 			</ol>
 		</nav>
 
-		<hr class="my-4" />
+		<hr class="my-2 !border-gray-500/50" />
 
 		<!-- Footer Links Section -->
 		{#if links && links.length > 0}

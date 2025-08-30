@@ -1,11 +1,31 @@
 <script lang="ts">
 	import { Header, Footer } from '$lib/components';
+	import { onMount, onDestroy } from 'svelte';
+	import { browser } from '$app/environment';
 
 	const {
 		title,
 		themeConfig: { metadata, navbar },
 		favicon
 	} = __SITE_CONFIG__;
+
+	let isNavHidden = false;
+
+	const handleNavHiddenChange = (event: CustomEvent) => {
+		isNavHidden = event.detail.isHidden;
+	};
+
+	onMount(() => {
+		if (browser) {
+			document.addEventListener('navHiddenChange', handleNavHiddenChange as EventListener);
+		}
+	});
+
+	onDestroy(() => {
+		if (browser) {
+			document.removeEventListener('navHiddenChange', handleNavHiddenChange as EventListener);
+		}
+	});
 </script>
 
 <svelte:head>
@@ -29,7 +49,7 @@
 	class={`view ${navbar && navbar.orientation === 'vertical' ? 'vertical-max-w flex flex-col md:flex-row md:mx-auto md:container' : 'flex flex-col'}`}
 >
 	<div
-		class={`header-wrapper ${navbar && navbar.orientation === 'vertical' ? 'md:flex-shrink-0 md:h-auto max-md:contents' : 'contents'}`}
+		class={`header-wrapper ${navbar && navbar.orientation === 'vertical' ? 'md:flex-shrink-0 md:h-auto max-md:contents' : 'contents'} ${navbar && navbar.orientation === 'vertical' && navbar.hideOnScroll && isNavHidden ? 'md:hidden' : ''}`}
 	>
 		<Header />
 	</div>

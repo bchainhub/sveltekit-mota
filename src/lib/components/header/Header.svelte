@@ -2,7 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
-	import { ArrowUpRight, Haze, Menu, Moon, Sun } from 'lucide-svelte';
+	import { ArrowUpRight, Eclipse, Menu, Moon, Sun } from 'lucide-svelte';
 	import { ActionsDropdown, Icon } from '$lib/components';
 	import {
 		walletConnected,
@@ -112,7 +112,14 @@
 			const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
 			if (isOpen) closeMenu();
 			if (hideOnScroll) {
+				const wasHidden = isNavHidden;
 				isNavHidden = currentScrollTop > lastScrollTop && currentScrollTop > 0;
+				// Dispatch event if nav hidden state changed
+				if (wasHidden !== isNavHidden) {
+					document.dispatchEvent(new CustomEvent('navHiddenChange', {
+						detail: { isHidden: isNavHidden }
+					}));
+				}
 			}
 			lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
 		}
@@ -185,11 +192,11 @@
 			{#if !disableSwitch}
 				<button onclick={rotateTheme} class="focus:outline-hidden flex items-center md:hidden">
 					{#if theme === 'system'}
-						<Haze class="w-6 h-6 text-gray-500" />
+						<Eclipse class="w-5 h-5 text-gray-500" />
 					{:else if theme === 'dark'}
-						<Moon class="w-6 h-6 text-gray-500" />
+						<Moon class="w-5 h-5 text-gray-500" />
 					{:else}
-						<Sun class="w-6 h-6 text-yellow-500" />
+						<Sun class="w-5 h-5 text-yellow-500" />
 					{/if}
 				</button>
 			{/if}
@@ -218,9 +225,9 @@
 						/>
 					{:else if authEnabled}
 						<li>
-							<div class="block vertical-menu left p-2">
+							<div class="block vertical-menu left">
 								<div class="flex items-center whitespace-nowrap">
-									<button onclick={manualConnect} class="action"><span>Connect</span></button>
+									<button onclick={manualConnect} class="action w-full text-left p-2"><span>Connect</span></button>
 								</div>
 							</div>
 						</li>
@@ -252,18 +259,18 @@
 							{/if}
 						</li>
 					{/each}
-					{#if items}<li><hr /></li>{/if}
+					{#if items}<li><hr class="!border-gray-500/50" /></li>{/if}
 					<li class="hidden md:flex items-center">
 						<button
 							onclick={rotateTheme}
 							class="menu-button focus:outline-hidden flex items-center p-2"
 						>
 							{#if theme === 'system'}
-								<Haze class="w-6 h-6 mr-1.5 text-gray-500" />System theme
+								<Eclipse class="w-5 h-5 mr-1.5 text-gray-500" />System theme
 							{:else if theme === 'dark'}
-								<Moon class="w-6 h-6 mr-1.5 text-gray-500" />Dark theme
+								<Moon class="w-5 h-5 mr-1.5 text-gray-500" />Dark theme
 							{:else}
-								<Sun class="w-6 h-6 mr-1.5 text-yellow-500" />Light theme
+								<Sun class="w-5 h-5 mr-1.5 text-yellow-500" />Light theme
 							{/if}
 						</button>
 					</li>
@@ -338,11 +345,11 @@
 							class="menu-button focus:outline-hidden flex items-center"
 						>
 							{#if theme === 'system'}
-								<Haze class="w-6 h-6 text-gray-500" />
+								<Eclipse class="w-5 h-5 text-gray-500" />
 							{:else if theme === 'dark'}
-								<Moon class="w-6 h-6 text-gray-500" />
+								<Moon class="w-5 h-5 text-gray-500" />
 							{:else}
-								<Sun class="w-6 h-6 text-yellow-500" />
+								<Sun class="w-5 h-5 text-yellow-500" />
 							{/if}
 						</button>
 					{/if}

@@ -107,6 +107,46 @@ header a:hover {
 	@apply text-gray-300 no-underline;
 }
 
+header.transparent a {
+	@apply text-gray-800;
+}
+
+header.transparent a:hover {
+	@apply text-gray-500;
+}
+
+header.transparent button {
+	@apply text-gray-800;
+}
+
+header.transparent button:hover {
+	@apply text-gray-500;
+}
+
+header.transparent.vertical a:hover {
+	@apply text-gray-100;
+}
+
+header.transparent.vertical button:hover {
+	@apply text-gray-100;
+}
+
+.dark header.transparent a {
+	@apply text-gray-100;
+}
+
+.dark header.transparent a:hover {
+	@apply text-gray-300;
+}
+
+.dark header.transparent button {
+	@apply text-gray-100;
+}
+
+.dark header.transparent button:hover {
+	@apply text-gray-300;
+}
+
 footer {
 	flex-shrink: 0;
 	@apply bg-gray-800 text-white;
@@ -120,20 +160,32 @@ footer a:hover {
 	@apply text-gray-300 no-underline;
 }
 
-.footer {
-	@apply bg-gray-800 text-white;
+.footer-transparent {
+	@apply bg-transparent text-gray-800;
 }
 
-.footer a {
-	@apply text-white;
+.footer-transparent a {
+	@apply text-gray-800;
 }
 
-.footer a:hover {
+.footer-transparent a:hover {
+	@apply text-gray-500 no-underline;
+}
+
+.dark .footer-transparent {
+	@apply text-gray-100;
+}
+
+.dark .footer-transparent a {
+	@apply text-gray-100;
+}
+
+.dark .footer-transparent a:hover {
 	@apply text-gray-300 no-underline;
 }
 
 hr {
-	@apply border-gray-700;
+	@apply border-gray-500;
 }
 
 .menu-item:hover {
@@ -225,10 +277,30 @@ label {
 	.vertical-max-w {
 		max-width: 100%;
 	}
+
+	header.transparent a {
+		@apply text-white;
+	}
+
+	header.transparent a:hover {
+		@apply text-gray-300;
+	}
+
+	header.transparent button {
+		@apply text-white;
+	}
+
+	header.transparent button:hover {
+		@apply text-gray-300;
+	}
 }
 
 @media (min-width: 768px) {
-	header.transparent.vertical nav ul li :hover {
+	header.transparent.vertical nav ul li a, header.transparent.vertical nav ul li button {
+		@apply rounded-md;
+	}
+
+	header.transparent.vertical nav ul li a:hover, header.transparent.vertical nav ul li button:hover {
 		@apply bg-gray-700 rounded-md;
 	}
 

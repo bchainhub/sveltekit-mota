@@ -1,9 +1,9 @@
 <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-	<div class="bg-white shadow overflow-hidden rounded-lg">
+	<div class="overflow-hidden">
 		<div class="px-4 py-5 sm:p-6">
-			<h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">Terms of Service</h1>
+			<h1 class="text-3xl font-bold mb-8 text-center">Terms of Service</h1>
 
-			<div class="prose prose-indigo max-w-none">
+			<div class="max-w-none">
 				<ol class="list-decimal pl-5">
 					<li class="mb-6">
 						<h2 class="text-xl font-bold">Introduction & Acceptance</h2>
@@ -135,18 +135,13 @@
 						<h2 class="text-xl font-bold">Contact</h2>
 						<p>
 							Questions? Contact us at
-							<a href="mailto:[email@domain]" class="text-indigo-600 hover:text-indigo-800">[email@domain]</a>.
+							<a href="mailto:[email@domain]">[email@domain]</a>.
 						</p>
 					</li>
 				</ol>
 
-				<p class="text-sm text-gray-500 mt-8 text-right">
+				<p class="text-sm mt-8 text-right">
 					Last Updated: <span>[YYYY-MM-DD]</span>
-				</p>
-
-				<p class="text-xs text-gray-400 mt-2">
-					<strong>Note:</strong> This generic template is provided for convenience only and is not legal advice.
-					Consult a qualified attorney to tailor these terms to your specific product and jurisdiction.
 				</p>
 			</div>
 		</div>

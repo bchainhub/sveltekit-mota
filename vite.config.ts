@@ -5,126 +5,106 @@ import type { Config } from 'vite-plugin-config';
 import tailwindcss from '@tailwindcss/vite';
 
 const siteConfig: Config = {
-	title: "Mota ₡ore", // Site title - keep `₡ore` if you want to let people know it's powered by Core Infra
-	url: "http://localhost:5173", // Site domain
-	organizationName: "bchainhub", // Organization name - In most cases it's your GitHub username
-	projectName: "dapp-sveltekit-boilerplate", // Project name - In most cases it's your repo name
-	favicon: "/img/icons/favicon.png", // Favicon path in static folder
+	title: 'MOTA', // Site title - keep `₡ore` if you want to let people know it's powered by Core Infra
+	url: 'http://localhost:5173', // Site domain
+	organizationName: 'bchainhub', // Organization name - In most cases it's your GitHub username
+	projectName: 'sveltekit-mota', // Project name - In most cases it's your repo name
+	supportLink: 'https://github.com/bchainhub/sveltekit-mota/issues', // Support link - In most cases it's your GitHub issues page
+	favicon: '/img/icons/favicon.png', // Favicon path in static folder
 	themeConfig: {
 		navbar: {
 			logo: {
-				src: "/img/logo.svg", // Logo path in static folder
-				alt: "MOTA" // Logo alt attribute
+				src: '/img/logo.svg', // Logo path in static folder
+				alt: 'MOTA' // Logo alt attribute
 			},
-			style: "auto", // Navbar style (auto, dark, light)
-			orientation: "horizontal", // Navbar orientation (horizontal, vertical)
+			style: 'auto', // Navbar style (auto, dark, light)
+			orientation: 'horizontal', // Navbar orientation (horizontal, vertical)
 			hideOnScroll: true, // Hide navbar on scroll down
 			iconExternal: true, // Icon for external links
-			items: [ // Navbar items
+			items: [
+				// Navbar items
 				{
-					label: "Home",
-					to: "/",
-					position: "left",
-					icon: "home"
-				},
-				{
-					label: "About",
-					to: "/about",
-					position: "left"
-				},
-				{
-					label: "Services",
-					to: "/services",
-					position: "left"
-				},
-				{
-					label: "Contact",
-					to: "/contact",
-					position: "left"
-				},
-				{
-					label: "Blog",
-					href: "https://blog.coreblockchain.net",
-					position: "right",
-					target: "_blank"
+					label: 'Intro',
+					to: '/',
+					position: 'left',
+					icon: 'link'
 				}
 			],
-			authItems: [ // Auth items
+			authItems: [
+				// Auth items
 				{
-					label: "Profile",
-					to: "/profile"
+					label: 'Profile',
+					to: '/profile'
 				},
 				{
-					label: "Settings",
-					to: "/settings"
+					label: 'Settings',
+					to: '/settings'
 				}
 			]
 		},
 		footer: {
-			style: "transparent", // Footer style (auto, dark, light, transparent)
+			style: 'transparent', // Footer style (auto, dark, light, transparent)
 			logo: {
-				src: "/img/logo-footer.svg", // Logo path in static folder
-				alt: "MOTA" // Logo alt attribute
+				src: '/img/logo-footer.svg', // Logo path in static folder
+				alt: 'MOTA' // Logo alt attribute
 			},
 			iconExternal: true, // Icon for external links
-			links: [ // Footer links
+			links: [
+				// Footer links
 				{
-					title: "1st Category",
+					title: 'Ecosystem',
 					items: [
-						{ label: "Home", to: "/", icon: "home" },
-						{ label: "Core", href: "https://coreblockchain.net" }
+						{ label: 'Intro', to: '/' }
 					]
 				},
 				{
-					title: "2nd Category",
+					title: 'Resources',
 					items: [
-						{ label: "About", to: "/about" },
-						{ label: "Core CIP", href: "https://cip.coreblockchain.net" }
+						{ label: 'About', href: 'https://github.com/bchainhub/sveltekit-starter', target: '_blank' }
 					]
 				},
 				{
-					title: "3rd Category",
+					title: 'Developers',
 					items: [
-						{ label: "Services", to: "/services" },
-						{ label: "PayTo", href: "https://payto.money", target: "_blank" }
+						{ label: 'MOTA files', href: 'hhttps://github.com/bchainhub/sveltekit-mota', target: '_blank' }
+					]
+				},
+				{
+					title: 'Contact',
+					items: [
+						{ label: 'E-mail Contact', to: 'mailto:rastislav@onion.email' },
+						{ label: 'Key Registry', to: '/keys' }
 					]
 				}
 			],
-			liner: [ // Footer liner
+			liner: [
+				// Footer liner
 				{
-					label: "🦖 Donate monthly",
-					to: "payto://xcb/cb7147879011ea207df5b35a24ca6f0859dcfb145999?rc=m&donate=1&org=MOTA+Foundation&item=Donation&color-f=0d2b27&color-b=2fa99b"
-				},
-				{
-					label: "Privacy Policy",
-					to: "/privacy"
-				},
-				{
-					label: "Terms of Service",
-					to: "/terms-of-service"
-				},
-				{
-					label: "Imprint",
-					href: "https://coreblockchain.net",
-					target: "_blank"
+					label: 'Terms of Service',
+					to: '/terms'
 				}
 			],
-			copyright: `Core ⊛ 2020-${new Date().getFullYear()} MOTA Foundation` // Copyright text
+			copyright: `⊛ CORE 2025-${new Date().getFullYear()} MOTA` // Copyright text
 		},
 		metadata: [
-			{ name: "viewport", content: "width=device-width, initial-scale=1.0" }, // Viewport meta tag
-			{ name: "theme-color", content: "#25c19f" }, // Theme color meta tag
-			{ name: "description", content: "This is SvetleKit Boilerplate website" }, // Description meta tag
-			{ name: "keywords", content: "website, sveltekit, vite, cloudflare" }, // Keywords meta tag
-			{ property: "og:type", content: "website" }, // Open Graph type meta tag
-			{ property: "ican:xcb", content: "cb7147879011ea207df5b35a24ca6f0859dcfb145999" }, // FinTag
-			{ property: "defi:fee", content: "1%" } // DeFi fee meta tag - To receive kickbacks for clients
+			{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }, // Viewport meta tag
+			{ name: 'theme-color', content: '#25c19f' }, // Theme color meta tag
+			{ name: 'description', content: 'This is SvetleKit Boilerplate website' }, // Description meta tag
+			{ name: 'keywords', content: 'mota, website, sveltekit, vite' }, // Keywords meta tag
+			{ property: 'og:type', content: 'website' }, // Open Graph type meta tag
 		],
 		colorMode: {
-			defaultMode: "light", // Default color mode
-			disableSwitch: false, // Disable color mode switch
-			respectPrefersColorScheme: true // Respect browser color scheme preference
+			defaultMode: 'light', // Default color mode
+			disableSwitch: true, // Disable color mode switch
+			respectPrefersColorScheme: false // Respect browser color scheme preference
+		},
+		auth: {
+			enabled: true,
+			title: 'Connect'
 		}
+	},
+	community: {
+		url: 'https://github.com/bchainhub/sveltekit-starter'
 	}
 };
 
@@ -136,23 +116,23 @@ export default defineConfig({
 			registerType: 'autoUpdate',
 			includeAssets: ['/icons/favicon.svg', 'robots.txt', '/icons/apple-touch-icon.png'],
 			manifest: {
-				name: 'MOTA — dApp Boilerplate',
+				name: 'MOTA',
 				short_name: 'MOTA',
-				description: 'Welcome to SvelteKit dApp Boilerplate',
+				description: 'MOTA Starter Pack',
 				theme_color: '#45a699',
 				icons: [
 					{
-						src: '/icons/192x192.png',
+						src: '/icons/192.png',
 						sizes: '192x192',
 						type: 'image/png'
 					},
 					{
-						src: '/icons/512x512.png',
+						src: '/icons/512.png',
 						sizes: '512x512',
 						type: 'image/png'
 					},
 					{
-						src: '/icons/512x512.png',
+						src: '/icons/512.png',
 						sizes: '512x512',
 						type: 'image/png',
 						purpose: 'any maskable'
@@ -162,6 +142,6 @@ export default defineConfig({
 		})
 	],
 	define: {
-		__SITE_CONFIG__: JSON.stringify(siteConfig),
-	},
+		__SITE_CONFIG__: JSON.stringify(siteConfig)
+	}
 });

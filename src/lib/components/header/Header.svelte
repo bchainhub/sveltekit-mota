@@ -1,27 +1,50 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
+	import { browser } from '$app/environment';
 	import { ArrowUpRight, Haze, Menu, Moon, Sun } from 'lucide-svelte';
 	import { ActionsDropdown, Icon } from '$lib/components';
-	import { walletConnected, walletAddress, autoLogin, connectWallet, disconnectWallet } from '$lib/helpers/wallet';
-	import * as publicDynamicEnv from '$env/dynamic/public';
+	import {
+		walletConnected,
+		walletAddress,
+		autoLogin,
+		connectWallet,
+		disconnectWallet
+	} from '$lib/helpers/wallet';
 
-	const { logo, items = [], hideOnScroll, orientation = 'horizontal', style = 'auto', iconExternal } = __SITE_CONFIG__?.themeConfig?.navbar || {};
-	const { disableSwitch, defaultMode, respectPrefersColorScheme } = __SITE_CONFIG__?.themeConfig?.colorMode || {};
+	const {
+		logo,
+		items = [],
+		hideOnScroll,
+		orientation = 'horizontal',
+		style = 'auto',
+		iconExternal
+	} = __SITE_CONFIG__?.themeConfig?.navbar || {};
+	const { disableSwitch, defaultMode, respectPrefersColorScheme } =
+		__SITE_CONFIG__?.themeConfig?.colorMode || {};
 
 	let isOpen: boolean = false;
 	let lastScrollTop = 0;
 	let isNavHidden: boolean = false;
 	let dropdownOpen: boolean = false;
-	let theme: 'light' | 'dark' | 'system' = respectPrefersColorScheme ? 'system' : (defaultMode ?? 'light');
-	let authEnabled: boolean = publicDynamicEnv.env.PUBLIC_ENABLE_AUTH === 'true' || false;
+	let theme: 'light' | 'dark' | 'system' = respectPrefersColorScheme
+		? 'system'
+		: (defaultMode ?? 'light');
+	let authEnabled: boolean = __SITE_CONFIG__?.themeConfig?.auth?.enabled || false;
 
-	const menuItems = writable([
-		{ label: 'Logout', action: () => disconnectWallet() },
-	]);
+	// Define the system theme change handler
+	const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+		if (theme === 'system') {
+			document.documentElement.classList.toggle('dark', e.matches);
+		}
+	};
 
-	const handleSelect = (event: CustomEvent<{ label: string; action: () => void; }>) => {
-		event.detail.action();
+	const menuItems = writable([{ label: 'Logout', action: () => disconnectWallet() }]);
+
+	const handleSelect = (event: CustomEvent<{ label: string; action?: () => void }>) => {
+		if (event.detail.action) {
+			event.detail.action();
+		}
 	};
 
 	const toggleMenu = () => {
@@ -35,43 +58,57 @@
 	const handleClickOutside = (event: MouseEvent) => {
 		const menuElement = document.getElementById('dropdown-menu');
 		const hamburgerButton = document.getElementById('hamburger-button');
-		if (menuElement && !menuElement.contains(event.target as Node) &&
-			hamburgerButton && !hamburgerButton.contains(event.target as Node)) {
+		if (
+			menuElement &&
+			!menuElement.contains(event.target as Node) &&
+			hamburgerButton &&
+			!hamburgerButton.contains(event.target as Node)
+		) {
 			closeMenu();
 		}
 	};
 
 	const rotateTheme = () => {
 		let prefersDark = defaultMode === 'dark';
-		if (typeof window !== 'undefined') {
+		if (browser) {
 			prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 		}
 
 		if (!respectPrefersColorScheme) {
 			theme = theme === 'light' ? 'dark' : 'light';
 		} else {
-			theme = theme === 'system' ? (prefersDark ? 'light' : 'dark') : theme === 'dark' ? 'system' : 'dark';
+			theme =
+				theme === 'system'
+					? prefersDark
+						? 'light'
+						: 'dark'
+					: theme === 'dark'
+						? 'system'
+						: 'dark';
 		}
 
 		applyTheme();
 	};
 
 	const applyTheme = () => {
-		if (typeof window !== 'undefined') {
-			const themeToApply = theme === 'system' && respectPrefersColorScheme
-				? window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-				: theme;
-			document.documentElement.setAttribute('data-theme', themeToApply);
-			localStorage.setItem('theme', themeToApply);
+		if (browser) {
+			if (theme === 'system') {
+				document.documentElement.classList.remove('dark');
+				localStorage.removeItem('theme');
+			} else {
+				const isDark = theme === 'dark';
+				document.documentElement.classList.toggle('dark', isDark);
+				localStorage.setItem('theme', theme);
+			}
 		}
 	};
 
 	const manualConnect = () => {
-		if(authEnabled) connectWallet();
-	}
+		if (authEnabled) connectWallet();
+	};
 
 	const handleScroll = () => {
-		if (typeof window !== 'undefined') {
+		if (browser) {
 			const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
 			if (isOpen) closeMenu();
 			if (hideOnScroll) {
@@ -86,38 +123,62 @@
 			autoLogin();
 		}
 
+		if (!browser) return;
+
+		// Listen for the custom event from ActionsDropdown
+		document.addEventListener('update:open', ((e: CustomEvent) => {
+			dropdownOpen = e.detail;
+		}) as EventListener);
+
 		const storedTheme = localStorage.getItem('theme') as string | null;
-		if (storedTheme === 'light' || storedTheme === 'dark' || storedTheme === 'system') {
+		if (storedTheme === 'light' || storedTheme === 'dark') {
 			theme = storedTheme;
+			document.documentElement.classList.toggle('dark', theme === 'dark');
 		} else {
-			theme = respectPrefersColorScheme ? 'system' : (defaultMode ?? 'light');
+			theme = 'system';
+			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			document.documentElement.classList.toggle('dark', prefersDark);
 		}
 
 		applyTheme();
 
-		if (typeof window !== 'undefined') {
-			window.addEventListener('scroll', handleScroll);
-			document.addEventListener('click', handleClickOutside);
-		}
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		mediaQuery.addEventListener('change', handleSystemThemeChange);
+
+		window.addEventListener('scroll', handleScroll);
+		document.addEventListener('click', handleClickOutside);
 	});
 
 	onDestroy(() => {
-		if (typeof window !== 'undefined') {
+		if (browser) {
 			window.removeEventListener('scroll', handleScroll);
 			document.removeEventListener('click', handleClickOutside);
+			const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+			mediaQuery.removeEventListener('change', handleSystemThemeChange);
 		}
 	});
 </script>
 
-<header class:nav-hidden={isNavHidden} class={`sticky top-0 text-navbar-link ${style === 'transparent' ? 'transparent' : 'shadow-navbar'} ${(orientation === 'vertical') ? 'vertical md:mr-4' : 'horizontal'}`}>
-	<div class={`flex justify-between p-4 md:container md:mx-auto ${(orientation === 'vertical') ? 'flex-row md:flex-col' : ''}`}>
-		<div class={`flex items-center space-x-4 ${(orientation === 'vertical') ? 'flex-grow' : ''}`}>
+<header
+	class:nav-hidden={isNavHidden}
+	class={`sticky top-0 text-navbar-link ${style === 'transparent' ? 'transparent' : 'shadow-navbar'} ${orientation === 'vertical' ? 'vertical md:mr-4' : 'horizontal'}`}
+>
+	<div
+		class={`flex justify-between p-4 md:container md:mx-auto ${orientation === 'vertical' ? 'flex-row md:flex-col' : ''}`}
+	>
+		<div class={`flex items-center space-x-4 ${orientation === 'vertical' ? 'flex-grow' : ''}`}>
 			{#if logo}
-				<a href="/" class={`flex justify-center md:mr-8 ${(orientation === 'vertical') ? 'space-y-2 md:mb-8' : 'space-x-2'}`}>
+				<a
+					href="/"
+					class={`flex justify-center md:mr-8 ${orientation === 'vertical' ? 'space-y-2 md:mb-8' : 'space-x-2'}`}
+				>
 					<img src={logo.src} alt={logo.alt} class="h-10" />
 				</a>
 			{:else if __SITE_CONFIG__?.title}
-				<a href="/" class={`flex justify-center md:mr-8 ${(orientation === 'vertical') ? 'space-y-2 md:mb-8' : 'space-x-2'}`}>
+				<a
+					href="/"
+					class={`flex justify-center md:mr-8 ${orientation === 'vertical' ? 'space-y-2 md:mb-8' : 'space-x-2'}`}
+				>
 					<h1 class="text-2xl font-bold">{__SITE_CONFIG__.title}</h1>
 				</a>
 			{/if}
@@ -134,7 +195,11 @@
 			{/if}
 		</div>
 		<div class="md:hidden flex items-center">
-			<button id="hamburger-button" class="cursor-context-menu focus:outline-hidden flex items-center" onclick={toggleMenu}>
+			<button
+				id="hamburger-button"
+				class="cursor-context-menu focus:outline-hidden flex items-center"
+				onclick={toggleMenu}
+			>
 				<Menu class="w-8 h-8" />
 			</button>
 		</div>
@@ -144,16 +209,17 @@
 					{#if authEnabled && $walletConnected}
 						<ActionsDropdown
 							title={$walletAddress}
-							bind:open={dropdownOpen}
+							open={dropdownOpen}
 							items={$menuItems}
 							position="left"
 							isSmall={true}
-							iconExternal={iconExternal}
-							on:change={handleSelect} />
+							{iconExternal}
+							onChange={handleSelect}
+						/>
 					{:else if authEnabled}
 						<li>
 							<div class="block vertical-menu left p-2">
-								<div  class="flex items-center whitespace-nowrap">
+								<div class="flex items-center whitespace-nowrap">
 									<button onclick={manualConnect} class="action"><span>Connect</span></button>
 								</div>
 							</div>
@@ -169,7 +235,12 @@
 									{label}
 								</a>
 							{:else if href}
-								<a href={href} target={target ? target : undefined} rel={target ? 'noopener noreferrer' : undefined} class="flex items-center p-2">
+								<a
+									{href}
+									target={target ? target : undefined}
+									rel={target ? 'noopener noreferrer' : undefined}
+									class="flex items-center p-2"
+								>
 									{#if icon}
 										<Icon name={icon} className="h-5 w-5 mr-1.5" />
 									{/if}
@@ -183,7 +254,10 @@
 					{/each}
 					{#if items}<li><hr /></li>{/if}
 					<li class="hidden md:flex items-center">
-						<button onclick={rotateTheme} class="menu-button focus:outline-hidden flex items-center p-2">
+						<button
+							onclick={rotateTheme}
+							class="menu-button focus:outline-hidden flex items-center p-2"
+						>
 							{#if theme === 'system'}
 								<Haze class="w-6 h-6 mr-1.5 text-gray-500" />System theme
 							{:else if theme === 'dark'}
@@ -209,7 +283,12 @@
 										{label}
 									</a>
 								{:else if href}
-									<a href={href} target={target ? target : undefined} rel={target ? 'noopener noreferrer' : undefined} class="flex items-center">
+									<a
+										{href}
+										target={target ? target : undefined}
+										rel={target ? 'noopener noreferrer' : undefined}
+										class="flex items-center"
+									>
 										{#if icon}
 											<Icon name={icon} className="h-5 w-5 mr-1.5" />
 										{/if}
@@ -235,7 +314,12 @@
 										{label}
 									</a>
 								{:else if href}
-									<a href={href} target={target ? target : undefined} rel={target ? 'noopener noreferrer' : undefined} class="flex items-center">
+									<a
+										{href}
+										target={target ? target : undefined}
+										rel={target ? 'noopener noreferrer' : undefined}
+										class="flex items-center"
+									>
 										{#if icon}
 											<Icon name={icon} className="h-5 w-5 mr-1.5" />
 										{/if}
@@ -249,7 +333,10 @@
 						{/if}
 					{/each}
 					{#if !disableSwitch}
-						<button onclick={rotateTheme} class="menu-button focus:outline-hidden flex items-center">
+						<button
+							onclick={rotateTheme}
+							class="menu-button focus:outline-hidden flex items-center"
+						>
 							{#if theme === 'system'}
 								<Haze class="w-6 h-6 text-gray-500" />
 							{:else if theme === 'dark'}
@@ -263,16 +350,17 @@
 						<li class="flex items-center">
 							<ActionsDropdown
 								title={$walletAddress}
-								bind:open={dropdownOpen}
+								open={dropdownOpen}
 								items={$menuItems}
 								position="right"
-								iconExternal={iconExternal}
-								on:change={handleSelect} />
+								{iconExternal}
+								onChange={handleSelect}
+							/>
 						</li>
 					{:else if authEnabled}
 						<li class="flex items-center">
 							<div class="block horizontal-menu neon">
-								<div  class="flex items-center whitespace-nowrap">
+								<div class="flex items-center whitespace-nowrap">
 									<button onclick={manualConnect} class="action"><span>Connect</span></button>
 								</div>
 							</div>
@@ -284,19 +372,27 @@
 	</div>
 
 	{#if isOpen}
-		<nav id="dropdown-menu" class="absolute top-full left-0 w-full max-h-[calc(100vh-4rem)] h-auto overflow-y-auto shadow-md z-50 md:hidden">
+		<nav
+			id="dropdown-menu"
+			class="absolute top-full left-0 w-full max-h-[calc(100vh-4rem)] h-auto overflow-y-auto shadow-md z-50 md:hidden"
+		>
 			<ul class="flex flex-col space-y-4 p-4">
 				{#each items as { label, to, href, target, icon }}
-					<li>
+					<li class="flex justify-center">
 						{#if to}
-							<a href={to} class="block flex items-center">
+							<a href={to} class="flex items-center justify-center w-full text-center">
 								{#if icon}
 									<Icon name={icon} className="h-5 w-5 mr-1.5" />
 								{/if}
 								{label}
 							</a>
 						{:else if href}
-							<a href={href} target={target ? target : undefined} rel={target ? 'noopener noreferrer' : undefined} class="flex items-center">
+							<a
+								{href}
+								target={target ? target : undefined}
+								rel={target ? 'noopener noreferrer' : undefined}
+								class="flex items-center justify-center w-full text-center"
+							>
 								{#if icon}
 									<Icon name={icon} className="h-5 w-5 mr-1.5" />
 								{/if}
@@ -309,19 +405,25 @@
 					</li>
 				{/each}
 				{#if authEnabled && $walletConnected}
-					<ActionsDropdown
-						title={$walletAddress}
-						bind:open={dropdownOpen}
-						items={$menuItems}
-						position="left"
-						isSmall={true}
-						iconExternal={iconExternal}
-						on:change={handleSelect} />
+					<li class="flex justify-center w-full">
+						<ActionsDropdown
+							title={$walletAddress}
+							open={dropdownOpen}
+							items={$menuItems}
+							position="left"
+							isSmall={true}
+							{iconExternal}
+							onChange={handleSelect}
+							className="w-full"
+						/>
+					</li>
 				{:else if authEnabled}
-					<li>
-						<div class="block horizontal-menu left">
-							<div class="flex items-center whitespace-nowrap">
-								<button onclick={manualConnect}>Connect</button>
+					<li class="flex justify-center w-full">
+						<div class="block horizontal-menu left w-full">
+							<div class="flex items-center justify-center whitespace-nowrap w-full">
+								<button onclick={manualConnect} class="w-full py-2 px-4 text-center"
+									>{__SITE_CONFIG__?.themeConfig?.auth?.title || 'Connect'}</button
+								>
 							</div>
 						</div>
 					</li>

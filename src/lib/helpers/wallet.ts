@@ -14,22 +14,22 @@ export async function autoLogin() {
 // Connect to CorePass wallet
 export async function connectWallet(automessage: boolean = true) {
 	// Check if CorePass is available
-	if (typeof window.corepass !== "undefined") {
+	if (typeof window.corepass !== 'undefined') {
 		try {
-				// Request account access from CorePass
-				const accounts = await window.corepass.request({ method: "xcb_requestAccounts" });
+			// Request account access from CorePass
+			const accounts = await window.corepass.request({ method: 'xcb_requestAccounts' });
 
-				if (accounts && accounts.length > 0) {
-					// Set the wallet details in stores
-					walletType.set("CorePass");
-					walletAddress.set(accounts[0]);
-					walletConnected.set(true);
-				} else {
-					toast.warning('CorePass Extension is not configured.');
-					throw new Error("No accounts found.");
-				}
+			if (accounts && accounts.length > 0) {
+				// Set the wallet details in stores
+				walletType.set('CorePass');
+				walletAddress.set(accounts[0]);
+				walletConnected.set(true);
+			} else {
+				toast.warning('CorePass Extension is not configured.');
+				throw new Error('No accounts found.');
+			}
 		} catch (error) {
-			console.error("CorePass connection failed:", error);
+			console.error('CorePass connection failed:', error);
 			toast.warning('Cannot connect CorePass Extension.');
 		}
 	} else if (automessage) {

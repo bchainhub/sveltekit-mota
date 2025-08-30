@@ -1,0 +1,8 @@
+@import url('https://cdn.jsdelivr.net/gh/rastislavcore/zephirum/zephirum.css');
+
+@font-face {
+	font-family: 'zephirum';
+	src: url(https://cdn.jsdelivr.net/gh/rastislavcore/zephirum/Zephirum-Regular.ttf)
+		format('truetype');
+	font-display: swap;
+}

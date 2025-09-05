@@ -124,7 +124,7 @@ ed3wDx2BZaHVHBFK8MO/X7p7tf8IPiZfmNZ+Jay7HMHxxmlHD4ktpSONTfZV
 		{/if}
 	</div>
 
-	<div class="bg-gray-100 p-4 rounded-lg">
+	<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
 		<pre class="text-sm overflow-auto">{gpgKey}</pre>
 	</div>
 </div>

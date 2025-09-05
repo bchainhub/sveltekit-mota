@@ -17,7 +17,7 @@ const siteConfig: Config = {
 				src: '/img/logo.svg', // Logo path in static folder
 				alt: 'MOTA' // Logo alt attribute
 			},
-			style: 'auto', // Navbar style (auto, transparent)
+			style: 'auto', // Navbar style (auto, blur, transparent)
 			orientation: 'horizontal', // Navbar orientation (horizontal, vertical)
 			hideOnScroll: true, // Hide navbar on scroll down
 			iconExternal: true, // Icon for external links

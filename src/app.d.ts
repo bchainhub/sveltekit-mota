@@ -11,7 +11,7 @@ declare module 'vite-plugin-config' {
 				logo?: { src: string; alt: string };
 				items?: NavbarItem[];
 				authItems?: NavbarItem[];
-				style?: 'auto' | 'transparent';
+				style?: 'auto' | 'blur' | 'transparent';
 				hideOnScroll?: boolean;
 				orientation?: 'horizontal' | 'vertical';
 				iconExternal?: boolean;

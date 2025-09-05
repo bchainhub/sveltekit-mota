@@ -168,7 +168,7 @@
 
 <header
 	class:nav-hidden={isNavHidden}
-	class={`sticky top-0 text-navbar-link ${style === 'transparent' ? 'transparent' : 'shadow-navbar'} ${orientation === 'vertical' ? 'vertical md:mr-4' : 'horizontal'}`}
+	class={`sticky top-0 text-navbar-link ${style === 'transparent' ? 'transparent' : style === 'blur' ? 'transparent backdrop-blur-lg' : 'shadow-navbar'} ${orientation === 'vertical' ? 'vertical md:mr-4' : 'horizontal'}`}
 >
 	<div
 		class={`flex justify-between p-4 md:container md:mx-auto ${orientation === 'vertical' ? 'flex-row md:flex-col' : ''}`}

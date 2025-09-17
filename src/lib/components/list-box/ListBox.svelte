@@ -87,7 +87,7 @@
 
 	{#if $expanded}
 		<ul
-			class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md shadow-lg z-10 ring-1 ring-black ring-opacity-5 focus:outline-hidden bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600"
+			class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md shadow-lg z-10 ring-1 ring-slate-200 dark:ring-slate-600 ring-opacity-5 focus:outline-hidden bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600"
 			tabindex="-1"
 			in:slide={{ duration: 200 }}
 			out:slide={{ duration: 100 }}

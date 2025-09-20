@@ -9,6 +9,8 @@
 	export let value: string | number;
 	export let id: string = '';
 	export let onChange: (value: string | number) => void = () => {};
+	export let disabled: boolean = false;
+	export let className: string = '';
 
 	let selectedValue = value;
 	const expanded = writable(false);
@@ -17,10 +19,12 @@
 	let dropdownElement: HTMLDivElement | null = null;
 
 	function toggle() {
+		if (disabled) return;
 		expanded.update((e) => !e);
 	}
 
 	function select(item: { value: string | number; label: string; ticker?: string }) {
+		if (disabled) return;
 		if (String(selectedValue) === String(item.value)) {
 			expanded.update((e) => !e);
 			return;
@@ -58,13 +62,14 @@
 	})();
 </script>
 
-<div class="relative w-full dropdown" bind:this={dropdownElement}>
+<div class="relative w-full dropdown {className}" bind:this={dropdownElement}>
 	<button
 		{id}
 		type="button"
 		on:click={toggle}
+		{disabled}
 		aria-label="Toggle dropdown"
-		class="inline-flex items-center justify-between bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-600 w-full px-3 py-2 rounded-md cursor-pointer focus:outline-hidden focus-visible:ring-4 focus-visible:ring-opacity-75 focus-visible:ring-emerald-500 dark:focus-visible:ring-emerald-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
+		class="inline-flex items-center justify-between bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 border-2 border-slate-200 dark:border-slate-600 w-full px-3 py-2 rounded-md cursor-pointer focus:outline-hidden focus-visible:ring-4 focus-visible:ring-opacity-75 focus-visible:ring-emerald-500 dark:focus-visible:ring-emerald-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-slate-100 dark:disabled:hover:bg-slate-800"
 	>
 		<span class="truncate">{selectedLabel}</span>
 		<span class="ml-2">

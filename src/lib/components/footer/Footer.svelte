@@ -124,12 +124,12 @@
 					<h1 class="text-xl font-bold">{__SITE_CONFIG__.title}</h1>
 				</a>
 			{/if}
-			<div class="text-center text-sm text-footer-link mt-4 md:mt-0">
+			<div class="text-center text-sm text-footer-link">
 				{copyright}
 			</div>
 			{#if liner}
 				<div
-					class="flex flex-wrap justify-center text-sm md:justify-start gap-4 mt-4 md:mt-0 md:ml-4"
+					class="flex flex-wrap justify-center text-sm md:justify-start gap-4 md:ml-4"
 				>
 					{#each liner as { label, to, href, target }}
 						<div class="flex items-center">
@@ -154,7 +154,7 @@
 					{/each}
 				</div>
 			{/if}
-			<div class="mt-4 md:mt-0 md:ml-auto flex items-center gap-4">
+			<div class="md:ml-auto flex items-center gap-4">
 				<div class="flex items-center gap-2">
 					<span
 						class="status-dot inline-block w-1.5 h-1.5 rounded-full {connectionStatus

@@ -54,9 +54,9 @@
 	});
 </script>
 
-<footer class={`footer ${footerClass}`}>
+<footer class={`footer px-4 xl:px-0 ${footerClass}`}>
 	<div class="container mx-auto py-4">
-		<nav aria-label="breadcrumb">
+		<nav aria-label="breadcrumb" class="hidden sm:block">
 			<ol class="inline-flex items-center rounded text-sm font-medium">
 				{#each pathSegments as segment, index}
 					<li class="inline-flex items-center" aria-current={segment.current ? 'page' : undefined}>
@@ -80,9 +80,9 @@
 
 		<!-- Footer Links Section -->
 		{#if links && links.length > 0}
-			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 mb-8">
+			<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 mb-8 text-center sm:text-left">
 				{#each links as section}
-					<div>
+					<div class="text-center sm:text-left">
 						<h4 class="text-lg font-semibold mb-2">
 							{section.title}
 						</h4>
@@ -90,7 +90,7 @@
 							{#each section.items as item}
 								<li class="text-sm">
 									{#if item.to}
-										<a href={item.to} class="hover:text-primary-600 transition duration-150">
+										<a href={item.to} class="hover:text-primary-600 transition duration-150 inline-block sm:inline">
 											{item.label}
 										</a>
 									{:else if item.href}
@@ -98,7 +98,7 @@
 											href={item.href}
 											target={item.target ? item.target : undefined}
 											rel={item.target ? 'noopener noreferrer' : undefined}
-											class="hover:text-primary-600 transition duration-150 flex items-center"
+											class="hover:text-primary-600 transition duration-150 inline-flex items-center justify-center sm:justify-start"
 										>
 											{item.label}
 											{#if typeof iconExternal === 'undefined' || iconExternal === true}

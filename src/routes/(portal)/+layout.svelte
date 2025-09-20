@@ -54,7 +54,7 @@
 		<Header />
 	</div>
 	<main
-		class={`container flex-1 mx-auto ${navbar && navbar.orientation === 'vertical' ? '' : 'pt-8'}`}
+		class={`container flex-1 mx-auto px-4 xl:px-0 ${navbar && navbar.orientation === 'vertical' ? '' : 'pt-8'}`}
 	>
 		<slot />
 	</main>

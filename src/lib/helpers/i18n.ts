@@ -86,10 +86,14 @@ export const applyLocale = async (locale: string) => {
 	if (!config?.enabled) return;
 
 	if (browser) {
-		// Unconditionally load base + active on the client.
-		// The sync loader is idempotent, so repeated calls are fine.
-		const { loadLocaleAsync } = await import('../../i18n/i18n-util.async');
-		await loadLocaleAsync(locale as any);
+		try {
+			// Try to load the async i18n utilities if they exist
+			// @ts-ignore - i18n-util.async may not exist if translations are not set up
+			const { loadLocaleAsync } = await import('../../i18n/i18n-util.async');
+			await loadLocaleAsync(locale as any);
+		} catch (error) {
+			// If i18n-util.async doesn't exist, we're not using translations
+		}
 		localStorage.setItem('locale', locale);
 	}
 
@@ -100,8 +104,13 @@ export const applyLocale = async (locale: string) => {
 // preload a locale dictionary into memory (used by layout load)
 export const loadLocaleAsync = async (locale: string) => {
 	if (!config?.enabled) return;
-	const { loadLocaleAsync } = await import('../../i18n/i18n-util.async');
-	await loadLocaleAsync(locale as any);
+	try {
+		// @ts-ignore - i18n-util.async may not exist if translations are not set up
+		const { loadLocaleAsync } = await import('../../i18n/i18n-util.async');
+		await loadLocaleAsync(locale as any);
+	} catch (error) {
+		// If i18n-util.async doesn't exist, we're not using translations
+	}
 };
 
 // Layout load function for i18n

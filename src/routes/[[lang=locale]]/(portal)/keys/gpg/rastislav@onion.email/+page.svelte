@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { Copy, Download, ExternalLink } from 'lucide-svelte';
-	import { toast } from '$lib/components';
+	import { Copy, Download, ArrowUpRight } from 'lucide-svelte';
+	import { copyToClipboard, downloadGPGKey } from '$lib/helpers/keys';
+	import { LL } from '../../../../../../i18n/i18n-svelte';
 
-	const gpgKeyName = 'rastislav@onion.email';
-	const gpgKeyId = '5B438A11';
-	const gpgKeyServerLink =
+	const keyName = 'rastislav@onion.email';
+	const keyId = '5B438A11';
+	const keyServerLink =
 		'https://keys.openpgp.org/vks/v1/by-fingerprint/F670A2D3626AB878A46D7AA8879FF4E05B438A11';
-	const gpgKey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+	const key = `-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBGRPywsBEADAoPc9YWe34LrnjSlBEPiIN7C+TxJ0pYgDA6J+fRHrWg+fOX39
 1BsDqM0PMp7T0febtk6kPMglLQuWW2XZ3eh29U2cT8rvS8sk+0jFt/wHCgXzI+R3
@@ -60,71 +61,59 @@ ed3wDx2BZaHVHBFK8MO/X7p7tf8IPiZfmNZ+Jay7HMHxxmlHD4ktpSONTfZV
 
 	// Function to copy the GPG key to clipboard
 	function copyKey() {
-		navigator.clipboard
-			.writeText(gpgKey)
-			.then(() => {
-				toast.success('GPG key copied to clipboard');
-			})
-			.catch((err) => {
-				toast.error('Failed to copy GPG key');
-				console.error('Could not copy text: ', err);
-			});
+		copyToClipboard(
+			key,
+			$LL.helpers.keys.copiedToClipboard(),
+			$LL.helpers.keys.failedToCopy()
+		);
 	}
 
 	// Function to download the GPG key as a .asc file
 	function downloadKey() {
-		const blob = new Blob([gpgKey], { type: 'application/pgp-keys' });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = `${gpgKeyName}.asc`;
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		URL.revokeObjectURL(url);
+		downloadGPGKey(key, keyName);
 	}
 </script>
 
 <div class="max-w-4xl mx-auto p-6">
-	<h1 class="text-3xl font-bold mb-2">GPG Public Key for {gpgKeyName}</h1>
+	<h1 class="text-xl md:text-3xl font-semibold mb-2">{$LL.common.keys.publicKeyFor({keyName: keyName})}</h1>
 
-	{#if gpgKeyId}
+	{#if keyId}
 		<div class="mb-4 text-sm text-gray-500">
-			Key ID: {gpgKeyId}
+			{$LL.common.keys.keyId({keyId: keyId})}
 		</div>
 	{/if}
 
-	<div class="mb-6 flex flex-wrap gap-2">
+	<div class="mb-6 flex flex-col sm:flex-row sm:flex-wrap gap-2">
 		<button
 			on:click={copyKey}
-			class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+			class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 		>
 			<Copy class="h-4 w-4 mr-2" />
-			Copy Key
+			{$LL.common.keys.copyKey()}
 		</button>
 
 		<button
 			on:click={downloadKey}
-			class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+			class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 		>
 			<Download class="h-4 w-4 mr-2" />
-			Download {gpgKeyName}.asc
+			{$LL.common.keys.downloadKey({keyName: keyName})}
 		</button>
 
-		{#if gpgKeyServerLink}
+		{#if keyServerLink}
 			<a
-				href={gpgKeyServerLink}
+				href={keyServerLink}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700! bg-white no-underline! hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+				class="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700! bg-white no-underline! hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 			>
-				<ExternalLink class="h-4 w-4 mr-2" />
-				View on Key Server
+				{$LL.common.keys.viewOnKeyServer()}
+				<ArrowUpRight class="h-4 w-4 ml-1" />
 			</a>
 		{/if}
 	</div>
 
 	<div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-		<pre class="text-sm overflow-auto">{gpgKey}</pre>
+		<pre class="text-sm overflow-auto">{key}</pre>
 	</div>
 </div>

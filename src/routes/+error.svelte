@@ -58,12 +58,12 @@
 
 <main>
 	<div class="max-w-screen-xl mx-auto px-4 flex items-center justify-start min-h-screen md:px-8">
-		<div class="max-w-lg mx-auto text-gray-600">
+		<div class="max-w-lg mx-auto text-gray-600 dark:text-gray-300">
 			<div class="space-y-3 text-center">
-				<h3 class="text-primary-600 font-semibold">
+				<h3 class="text-primary-600 dark:text-primary-400 font-semibold">
 					{status} Error
 				</h3>
-				<p class="text-gray-800 text-4xl font-semibold sm:text-5xl">
+				<p class="text-gray-800 dark:text-gray-100 text-4xl font-semibold sm:text-5xl">
 					{#if status === 404}
 						Page not found
 					{:else if status === 500}
@@ -72,7 +72,7 @@
 						Error occurred
 					{/if}
 				</p>
-				<p>
+				<p class="text-gray-700 dark:text-gray-300">
 					{#if status === 404}
 						Sorry, the page you are looking for could not be found or has been removed.
 					{:else if status === 500}
@@ -83,22 +83,22 @@
 				</p>
 			</div>
 			<div class="mt-6">
-				<ul class="divide-y">
+				<ul class="divide-y divide-gray-200 dark:divide-gray-700">
 					{#each navigations as item, idx (idx)}
 						<li class="flex gap-x-4 py-6">
 							<div
-								class="flex-none w-14 h-14 bg-gray-100 rounded-full text-gray-600 flex items-center justify-center"
+								class="flex-none w-14 h-14 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-300 flex items-center justify-center"
 							>
 								<svelte:component this={item.icon} class="w-6 h-6" />
 							</div>
 							<div class="space-y-1">
-								<h4 class="text-gray-800 font-medium">{item.title}</h4>
-								<p>
+								<h4 class="text-gray-800 dark:text-gray-100 font-medium">{item.title}</h4>
+								<p class="text-gray-600 dark:text-gray-300">
 									{item.desc}
 								</p>
 								<a
 									href={item.href}
-									class="text-sm text-primary-600 duration-150 hover:text-primary-400 font-medium inline-flex items-center gap-x-1"
+									class="text-sm text-primary-600 dark:text-primary-400 duration-150 hover:text-primary-400 dark:hover:text-primary-300 font-medium inline-flex items-center gap-x-1"
 								>
 									{item.title === 'Report problem' ? 'Report issue' : 'Continue'}
 									<ArrowRight class="w-4 h-4" />

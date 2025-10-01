@@ -1,6 +1,8 @@
-import { getGeoData } from '$lib/helpers/geo';
-import { json, type Handle } from '@sveltejs/kit';
+import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+import { json } from '@sveltejs/kit';
 import { ApiError } from '$lib/server/apiError';
+import { getGeoData } from '$lib/helpers/geo';
 
 const statusMessages: Record<number, string> = {
 	400: 'Bad Request',
@@ -18,31 +20,41 @@ const statusMessages: Record<number, string> = {
 	504: 'Gateway Timeout'
 };
 
-export const handle: Handle = async ({ event, resolve }) => {
+const handleApi: Handle = async ({ event, resolve }) => {
 	try {
+		// available for all requests
 		getGeoData(event);
 
-		const response = await resolve(event);
+		// API routes bypass i18n/layout redirects
+		if (event.url.pathname.startsWith('/api/')) {
+			const response = await resolve(event);
 
-		if (event.url.pathname.startsWith('/api') && response.status >= 400) {
-			try {
-				const data = await response.clone().json();
-				// If it's already an ApiError format, return it as is
-				if (data.status === 'error') {
-					return json(data, {
-						status: data.code,
-						headers: {
-							'Access-Control-Allow-Origin': '*',
-							'X-APP-Version': import.meta.env.VITE_APP_VERSION
-						}
-					});
+			// normalize API error responses
+			if (response.status >= 400) {
+				try {
+					const data = await response.clone().json();
+					if (data.status === 'error') {
+						return json(data, {
+							status: data.code,
+							headers: {
+								'Access-Control-Allow-Origin': '*',
+								'X-APP-Version': import.meta.env.VITE_APP_VERSION
+							}
+						});
+					}
+				} catch {
+					/* ignore non-JSON */
 				}
-			} catch {}
+			}
+
+			return response;
 		}
 
-		return response;
+		// Non-API routes: let the [[lang=locale]] layout handle i18n + redirects
+		return resolve(event);
 	} catch (error) {
-		if (event.url.pathname.startsWith('/api')) {
+		// Only wrap API errors here; non-API errors bubble to SvelteKit
+		if (event.url.pathname.startsWith('/api/')) {
 			if (error instanceof ApiError) {
 				return json(
 					{
@@ -91,3 +103,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 		throw error;
 	}
 };
+
+export const handle = sequence(handleApi);

@@ -8,13 +8,14 @@ declare module 'vite-plugin-config' {
 		favicon?: string;
 		themeConfig: {
 			navbar?: {
-				logo?: { src: string; alt: string };
+				logo?: { src: string; srcDark: string; alt: string };
 				items?: NavbarItem[];
 				authItems?: NavbarItem[];
 				style?: 'auto' | 'blur' | 'transparent';
 				hideOnScroll?: boolean;
 				orientation?: 'horizontal' | 'vertical';
 				iconExternal?: boolean;
+				leftItemsPosition?: 'left' | 'center';
 			};
 			footer?: {
 				style?: 'light' | 'dark' | 'transparent';
@@ -31,16 +32,26 @@ declare module 'vite-plugin-config' {
 				respectPrefersColorScheme?: boolean;
 				iconExternal?: boolean;
 			};
-			auth?: {
-				enabled?: boolean;
-				title?: string;
-				providers?: {
-					[key: string]: any;
-				};
-			};
 		};
 		community?: {
 			url: string;
+		};
+		auth?: {
+			enabled?: boolean;
+			title?: string;
+			icon?: string;
+			provider?: string;
+			strategy?: 'passkey' | 'web3';
+			className?: string;
+		};
+		language?: {
+			enabled?: boolean;
+			icon?: string;
+			showName?: boolean;
+			availableLocales?: Array<{ code: string; name?: string }>;
+			defaultLocale?: string;
+			autoDetect?: boolean;
+			className?: string;
 		};
 	}
 }
@@ -48,12 +59,15 @@ declare module 'vite-plugin-config' {
 declare const __SITE_CONFIG__: import('vite-plugin-config').Config;
 
 interface NavbarItem {
-	label: string;
+	label?: string;
 	to?: string;
 	href?: string;
 	position?: 'left' | 'right';
 	target?: '_blank' | '_self' | '_parent' | '_top';
+	rel?: string;
 	icon?: string;
+	className?: string;
+	submenu?: NavbarItem[];
 }
 
 interface FooterLinkItem {
@@ -61,7 +75,9 @@ interface FooterLinkItem {
 	to?: string;
 	href?: string;
 	target?: '_blank' | '_self' | '_parent' | '_top';
+	rel?: string;
 	icon?: string;
+	className?: string;
 }
 
 type MenuItem = NavbarItem & {
@@ -72,6 +88,7 @@ declare namespace App {
 	interface Locals {
 		country?: string;
 		city?: string;
+		locale?: string;
 	}
 
 	interface PageData {
@@ -96,13 +113,4 @@ declare module '$env/dynamic/public' {
 declare module '$env/dynamic/private' {
 	export const CAPTURE_COUNTRY: string | undefined;
 	export const CAPTURE_CITY: string | undefined;
-}
-
-interface Window {
-	corepass?: {
-		isCorePass?: boolean;
-		request: (args: { method: string; params?: unknown[] }) => Promise<any>;
-		on?: (eventName: string, callback: (...args: any[]) => void) => void;
-		removeListener?: (eventName: string, callback: (...args: any[]) => void) => void;
-	};
 }

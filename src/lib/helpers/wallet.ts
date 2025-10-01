@@ -1,6 +1,15 @@
 import { writable } from 'svelte/store';
 import { toast } from '$lib/components';
 
+// Extend Window interface to include CorePass
+declare global {
+	interface Window {
+		corepass?: {
+			request: (params: { method: string }) => Promise<string[]>;
+		};
+	}
+}
+
 // Svelte stores for wallet state
 export const walletConnected = writable(false);
 export const walletType = writable<string | null>(null);
@@ -12,7 +21,7 @@ export async function autoLogin() {
 }
 
 // Connect to CorePass wallet
-export async function connectWallet(automessage: boolean = true) {
+export async function connectWallet(automessage: boolean = true, messages?: Record<string, string>) {
 	// Check if CorePass is available
 	if (typeof window.corepass !== 'undefined') {
 		try {
@@ -25,22 +34,22 @@ export async function connectWallet(automessage: boolean = true) {
 				walletAddress.set(accounts[0]);
 				walletConnected.set(true);
 			} else {
-				toast.warning('CorePass Extension is not configured.');
+				toast.warning(messages?.corePassNotConfigured || 'CorePass Extension is not configured.');
 				throw new Error('No accounts found.');
 			}
 		} catch (error) {
 			console.error('CorePass connection failed:', error);
-			toast.warning('Cannot connect CorePass Extension.');
+			toast.warning(messages?.corePassCannotConnect || 'Cannot connect CorePass Extension.');
 		}
 	} else if (automessage) {
-		toast.warning('CorePass Extension is not installed or enabled.');
+		toast.warning(messages?.corePassNotInstalled || 'CorePass Extension is not installed or enabled.');
 	}
 }
 
 // Disconnect the current wallet
-export function disconnectWallet() {
+export function disconnectWallet(messages?: Record<string, string>) {
 	walletConnected.set(false);
 	walletType.set(null);
 	walletAddress.set(null);
-	toast.success('CorePass disconnected.');
+	toast.success(messages?.corePassDisconnected || 'CorePass disconnected.');
 }

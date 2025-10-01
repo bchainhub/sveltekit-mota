@@ -17,12 +17,12 @@ export interface CoreIdValidationResult {
  * @param id The Core ID string to validate.
  * @param updateField Which field is being validated ('coreId' or 'userCoreId').
  */
-export function validateCoreId(id: string, updateField: CoreIdField): CoreIdValidationResult {
+export function validateCoreId(id: string, updateField: CoreIdField, messages?: Record<string, string>): CoreIdValidationResult {
 	if (!id) {
 		return {
 			isValid: false,
 			isEnterprise: false,
-			error: 'Core ID is required',
+			error: messages?.requiredError || 'Core ID is required',
 			field: updateField,
 			touched: updateField === 'coreId'
 		};
@@ -39,7 +39,7 @@ export function validateCoreId(id: string, updateField: CoreIdField): CoreIdVali
 				isEnterprise: true,
 				description,
 				metadata,
-				error: 'Enterprise network addresses cannot be used for payments',
+				error: messages?.enterpriseError || 'Enterprise network addresses cannot be used for payments',
 				field: updateField,
 				touched: true
 			};
@@ -59,7 +59,7 @@ export function validateCoreId(id: string, updateField: CoreIdField): CoreIdVali
 		return {
 			isValid: false,
 			isEnterprise: false,
-			error: 'Please enter a valid Core ID',
+			error: messages?.error || 'Please enter a valid Core ID',
 			field: updateField,
 			touched: true
 		};

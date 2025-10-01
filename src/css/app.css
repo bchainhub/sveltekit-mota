@@ -91,7 +91,6 @@ header {
 	position: sticky;
 	top: 0;
 	z-index: 1000;
-	@apply bg-gray-800 text-white shadow-md;
 	transition: transform 300ms ease-in-out;
 }
 
@@ -100,51 +99,7 @@ header.nav-hidden {
 }
 
 header a {
-	@apply text-white;
-}
-
-header a:hover {
-	@apply text-gray-300 no-underline;
-}
-
-header.transparent a {
-	@apply text-gray-800;
-}
-
-header.transparent a:hover {
-	@apply text-gray-500;
-}
-
-header.transparent button {
-	@apply text-gray-800;
-}
-
-header.transparent button:hover {
-	@apply text-gray-500;
-}
-
-header.transparent.vertical a:hover {
-	@apply text-gray-100;
-}
-
-header.transparent.vertical button:hover {
-	@apply text-gray-100;
-}
-
-.dark header.transparent a {
-	@apply text-gray-100;
-}
-
-.dark header.transparent a:hover {
-	@apply text-gray-300;
-}
-
-.dark header.transparent button {
-	@apply text-gray-100;
-}
-
-.dark header.transparent button:hover {
-	@apply text-gray-300;
+	@apply no-underline!;
 }
 
 footer {
@@ -194,10 +149,6 @@ hr {
 
 code {
 	@apply font-mono;
-}
-
-nav#dropdown-menu {
-	@apply bg-gray-800;
 }
 
 nav button {
@@ -271,6 +222,15 @@ label {
 }
 .status-dot-web4.connected {
 	@apply bg-green-500;
+}
+
+.nav-scroll-container * {
+	pointer-events: none;
+}
+
+.nav-scroll-container button,
+.nav-scroll-container a {
+	pointer-events: auto;
 }
 
 @media (max-width: 767px) {

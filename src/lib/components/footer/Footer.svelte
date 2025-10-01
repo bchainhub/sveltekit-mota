@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { ArrowUpRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { ChevronRight } from 'lucide-svelte';
+	import { ArrowUpRight, ChevronRight } from 'lucide-svelte';
+	import { Icon } from '../icon';
+	// @ts-ignore - LL might not be available if i18n library not installed
+	import { LL } from '../../../i18n/i18n-svelte';
+	import { t } from '$lib/helpers/i18n';
 
 	const { style, logo, copyright, liner, links, iconExternal } =
 		__SITE_CONFIG__?.themeConfig?.footer || {};
@@ -24,7 +27,7 @@
 		const path = $page.url.pathname;
 		const segments = path.split('/').filter((segment) => segment);
 
-		pathSegments = [{ name: 'Home', url: '/', current: segments.length === 0 }];
+		pathSegments = [{ name: t('footer.home', $LL), url: '/', current: segments.length === 0 }];
 
 		let currentPath = '';
 		segments.forEach((segment, index) => {
@@ -84,23 +87,33 @@
 				{#each links as section}
 					<div class="text-center sm:text-left">
 						<h4 class="text-lg font-semibold mb-2">
-							{section.title}
+							{t(section.title, $LL)}
 						</h4>
 						<ul class="space-y-2">
 							{#each section.items as item}
 								<li class="text-sm">
 									{#if item.to}
 										<a href={item.to} class="hover:text-primary-600 transition duration-150 inline-block sm:inline">
-											{item.label}
+											{#if item.icon}
+												<Icon name={item.icon} className="h-4 w-4 {item.label ? 'mr-1' : ''}" />
+											{/if}
+											{#if item.label}
+												{t(item.label, $LL)}
+											{/if}
 										</a>
 									{:else if item.href}
 										<a
 											href={item.href}
 											target={item.target ? item.target : undefined}
-											rel={item.target ? 'noopener noreferrer' : undefined}
+											rel={item.rel ? item.rel : undefined}
 											class="hover:text-primary-600 transition duration-150 inline-flex items-center justify-center sm:justify-start"
 										>
-											{item.label}
+											{#if item.icon}
+												<Icon name={item.icon} className="h-4 w-4 {item.label ? 'mr-1' : ''}" />
+											{/if}
+											{#if item.label}
+												{t(item.label, $LL)}
+											{/if}
 											{#if typeof iconExternal === 'undefined' || iconExternal === true}
 												<ArrowUpRight class="h-4 w-4 ml-1" />
 											{/if}
@@ -125,26 +138,36 @@
 				</a>
 			{/if}
 			<div class="text-center text-sm text-footer-link">
-				{copyright}
+				{t(copyright || 'footer.copyright', $LL, { year: new Date().getFullYear() })}
 			</div>
 			{#if liner}
 				<div
 					class="flex flex-wrap justify-center text-sm md:justify-start gap-4 md:ml-4"
 				>
-					{#each liner as { label, to, href, target }}
+					{#each liner as { label, to, href, target, rel, className, icon }}
 						<div class="flex items-center">
 							{#if to}
-								<a href={to} class="hover:text-footer-link-hover">
-									{label}
+								<a href={to} class="hover:text-footer-link-hover {className}">
+									{#if icon}
+										<Icon name={icon} className="h-4 w-4 {label ? 'mr-1' : ''}" />
+									{/if}
+									{#if label}
+										{t(label, $LL)}
+									{/if}
 								</a>
 							{:else if href}
 								<a
 									{href}
 									target={target ? target : undefined}
-									rel={target ? 'noopener noreferrer' : undefined}
-									class="hover:text-footer-link-hover flex items-center"
+									rel={rel ? rel : undefined}
+									class="hover:text-footer-link-hover flex items-center {className}"
 								>
-									{label}
+									{#if icon}
+										<Icon name={icon} className="h-4 w-4 {label ? 'mr-1' : ''}" />
+									{/if}
+									{#if label}
+										{t(label, $LL)}
+									{/if}
 									{#if typeof iconExternal === 'undefined' || iconExternal === true}
 										<ArrowUpRight class="h-4 w-4" />
 									{/if}
@@ -161,7 +184,7 @@
 							? 'connected'
 							: ''}"
 					></span>
-					<p class="text-sm text-footer-link">{connectionStatus ? 'Online' : 'Offline'}</p>
+					<p class="text-sm text-footer-link text-nowrap">{connectionStatus ? t('common.online', $LL) : t('common.offline', $LL)}</p>
 				</div>
 			</div>
 		</div>

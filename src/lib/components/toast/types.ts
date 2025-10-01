@@ -11,4 +11,8 @@ export interface ToastMethods {
 	error: (message: string, duration?: number, className?: string) => void;
 	info: (message: string, duration?: number, className?: string) => void;
 	warning: (message: string, duration?: number, className?: string) => void;
+	remove: (id: string) => void;
+	pause: (id: string) => void;
+	resume: (id: string) => void;
+	clear: () => void;
 }

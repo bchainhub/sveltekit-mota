@@ -11,7 +11,7 @@
  */
 export function validateSecureUrl(url: string): boolean {
 	// Skip validation in development mode
-	if (process.env.NODE_ENV === 'development') {
+	if (import.meta.env.MODE === 'development') {
 		return true;
 	}
 

@@ -1,11 +1,11 @@
 <div class="bg-white dark:bg-gray-900 dark:text-gray-100">
 	<div class="container mx-auto space-y-16 px-4 py-16 lg:px-8 lg:py-32 xl:max-w-7xl"
 	>
-		<div class="text-center">
-			<div class="mb-1 text-sm font-bold tracking-wider text-blue-600 uppercase dark:text-blue-500">
+		<div>
+			<div class="mb-1 text-sm text-center font-bold tracking-wider text-blue-600 uppercase dark:text-blue-500">
 				MOTA – SvelteKit Starter
 			</div>
-			<h2 class="mb-4 text-4xl font-black text-black dark:text-white">
+			<h2 class="mb-4 text-4xl font-black text-center text-black dark:text-white">
 				Getting Started with Mota
 			</h2>
 			<div class="mx-auto text-xl leading-relaxed font-medium text-gray-700 lg:w-2/3 dark:text-gray-300 space-y-4">
@@ -37,8 +37,7 @@
 				</div>
 				<div>
 					<h2 class="text-2xl font-semibold mb-2">Next</h2>
-					<ol class="list-decimal pl-5 space-y-1">
-						<li>Answer prompts (auth, DB, assets, license).</li>
+					<ol class="list-decimal list-inside pl-5 space-y-1">
 						<li>Modify <code>vite.config.ts</code> to your needs.</li>
 						<li>Edit language configuration and files in <code>src/i18n</code> or clean language directory and references.</li>
 						<li>Update GPG keys or delete GPG keys directory.</li>

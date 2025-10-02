@@ -1,4 +1,4 @@
-export function getIpfsUrl(url: string, ns: string): string {
+export function getIpfsUrl(url: string, ns?: string): string {
 	if (!url) return '';
 	if (url.startsWith('ipfs://')) {
 		const cid = url.substring(7); // remove the 'ipfs://' prefix

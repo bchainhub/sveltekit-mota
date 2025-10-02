@@ -3,8 +3,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import type { LayoutData } from './$types';
-	import { applyLocale } from '$lib/helpers/i18n';
-	import { detectLocale } from 'typesafe-i18n/detectors';
+	import { applyLocale, detectLocale } from '$lib/helpers/i18n';
 
 	export let data: LayoutData;
 
@@ -34,15 +33,27 @@
 		}
 		// Priority 3: Auto-detect if no stored locale and auto-detect is enabled
 		else if (!storedLocale && language?.autoDetect) {
-			const detectedLocale = detectLocale(navigator.language, language.availableLocales?.map(loc => loc.code) || []);
-			if (detectedLocale && language?.availableLocales?.some(loc => loc.code === detectedLocale)) {
-				finalLocale = detectedLocale;
-				// Store detected locale in localStorage for future visits
-				localStorage.setItem('locale', detectedLocale);
-			} else {
-				// Auto-detection failed or disabled, fall back to default locale
-				finalLocale = language?.defaultLocale || 'en';
-			}
+			detectLocale(navigator.language, language.availableLocales?.map(loc => loc.code) || [])
+				.then(detectedLocale => {
+					if (detectedLocale && language?.availableLocales?.some(loc => loc.code === detectedLocale)) {
+						finalLocale = detectedLocale;
+						// Store detected locale in localStorage for future visits
+						localStorage.setItem('locale', detectedLocale);
+						document.documentElement.setAttribute('lang', finalLocale);
+						applyLocale(finalLocale);
+					} else {
+						// Auto-detection failed or disabled, fall back to default locale
+						finalLocale = language?.defaultLocale || 'en';
+						document.documentElement.setAttribute('lang', finalLocale);
+						applyLocale(finalLocale);
+					}
+				})
+				.catch(() => {
+					// Fallback to default locale if detection fails
+					finalLocale = language?.defaultLocale || 'en';
+					document.documentElement.setAttribute('lang', finalLocale);
+					applyLocale(finalLocale);
+				});
 		}
 		// Priority 4: Fallback to default locale if no other method worked
 		else if (!storedLocale && !language?.autoDetect) {

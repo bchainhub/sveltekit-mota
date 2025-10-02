@@ -48,6 +48,37 @@ export function deepMergeDict<T>(base: T, overlay: DeepPartial<T> | undefined): 
 // Locale utilities
 // -----------------------------
 
+// Fallback detectLocale function when typesafe-i18n is not available
+const fallbackDetectLocale = (navigatorLanguage: string, availableLocales: string[]) => {
+	// Simple fallback: try to match language code (e.g., 'en-US' -> 'en')
+	const baseLanguage = navigatorLanguage.split('-')[0];
+	return availableLocales.find(locale => locale.startsWith(baseLanguage)) || availableLocales[0];
+};
+
+// Smart detectLocale function that automatically detects and uses typesafe-i18n if available
+export const detectLocale = async (navigatorLanguage: string, availableLocales: string[]) => {
+	// Check if we're in a browser environment
+	if (typeof window === 'undefined') {
+		return fallbackDetectLocale(navigatorLanguage, availableLocales);
+	}
+
+	// Try to dynamically load typesafe-i18n using a runtime approach
+	try {
+		// Use a dynamic import with a string that Vite won't analyze statically
+		const moduleName = 'typesafe-i18n/detectors';
+		const module = await import(/* @vite-ignore */ moduleName);
+
+		if (module && typeof module.detectLocale === 'function') {
+			return module.detectLocale(navigatorLanguage, availableLocales);
+		}
+	} catch (error) {
+		// typesafe-i18n not available, fall back to backup implementation
+	}
+
+	// Fallback to our simple implementation
+	return fallbackDetectLocale(navigatorLanguage, availableLocales);
+};
+
 // get available locales from config
 export const getAvailableLocales = (): string[] => {
 	if (!config?.enabled) return ['en'];

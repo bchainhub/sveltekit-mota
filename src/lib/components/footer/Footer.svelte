@@ -130,11 +130,11 @@
 		<div class="flex flex-col md:flex-row gap-4 items-center mb-2 mt-4">
 			{#if logo}
 				<a href="/" class="flex items-center mb-4 md:mb-0">
-					<img src={logo.src} alt={logo.alt} class="h-10" />
+					<img src={logo.src} alt={logo.alt || __SITE_CONFIG__.title} class="h-10" />
 				</a>
 			{:else if __SITE_CONFIG__?.title}
 				<a href="/" class="flex items-center mb-4 md:mb-0">
-					<h1 class="text-xl font-bold">{__SITE_CONFIG__.title}</h1>
+					<h1 class="text-xl font-bold">{__SITE_CONFIG__.title.endsWith(' ₡ore') ? __SITE_CONFIG__.title.slice(0, -5) : __SITE_CONFIG__.title}</h1>
 				</a>
 			{/if}
 			<div class="text-center text-sm text-footer-link">

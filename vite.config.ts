@@ -30,7 +30,8 @@ const siteConfig: Config = {
 			logo: {
 				src: '/img/logo.svg', // Logo path in static folder
 				srcDark: '/img/logo-dark.svg', // Logo path in static folder
-				alt: 'Mota' // Logo alt attribute
+				alt: 'Mota', // Logo alt attribute
+				appendTitle: false // Append title to logo
 			},
 			style: 'blur', // Navbar style (auto, blur, transparent)
 			orientation: 'horizontal', // Navbar orientation (horizontal, vertical)
@@ -142,7 +143,7 @@ const siteConfig: Config = {
 		url: 'https://github.com/bchainhub/sveltekit-mota'
 	},
 	auth: {
-		enabled: true,
+		enabled: false,
 		title: 'auth.login',
 		icon: 'login',
 		strategy: 'passkey',

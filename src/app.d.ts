@@ -8,7 +8,7 @@ declare module 'vite-plugin-config' {
 		favicon?: string;
 		themeConfig: {
 			navbar?: {
-				logo?: { src: string; srcDark: string; alt: string };
+				logo?: { src: string; srcDark: string; alt?: string; appendTitle?: boolean };
 				items?: NavbarItem[];
 				authItems?: NavbarItem[];
 				style?: 'auto' | 'blur' | 'transparent';
@@ -19,7 +19,7 @@ declare module 'vite-plugin-config' {
 			};
 			footer?: {
 				style?: 'light' | 'dark' | 'transparent';
-				logo?: { src: string; alt: string };
+				logo?: { src: string; alt?: string };
 				links?: { title: string; items: FooterLinkItem[] }[];
 				copyright?: string;
 				liner?: FooterLinkItem[];

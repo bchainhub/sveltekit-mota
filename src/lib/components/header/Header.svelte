@@ -54,7 +54,8 @@
 	};
 
 	const menuItems = writable([{ label: 'common.logout', action: () => disconnectWallet({
-		corePassDisconnected: $LL.helpers.wallet.corePassDisconnected()
+		// @ts-expect-error - LL types may not include helpers
+		corePassDisconnected: $LL.helpers.wallet.corePassDisconnected() || 'CorePass disconnected.'
 	}) }]);
 
 	const handleSelect = (event: CustomEvent<{ label: string; action?: () => void }>) => {
@@ -178,8 +179,11 @@
 
 	const manualConnect = () => {
 		if (authEnabled && browser && authStrategy === 'web3') connectWallet(true, {
+			// @ts-expect-error - LL types may not include helpers
 			corePassNotConfigured: $LL.helpers.wallet.corePassNotConfigured(),
+			// @ts-expect-error - LL types may not include helpers
 			corePassNotInstalled: $LL.helpers.wallet.corePassNotInstalled(),
+			// @ts-expect-error - LL types may not include helpers
 			corePassCannotConnect: $LL.helpers.wallet.corePassCannotConnect()
 		});
 	};
@@ -268,13 +272,16 @@
 				<a href="/" class={`flex items-center flex-shrink-0 ${orientation === 'vertical' ? 'lg:mb-6' : ''}`}>
 					<img
 						src={style === 'auto' && theme === 'dark' && logo.srcDark ? logo.srcDark : style === 'transparent' && theme === 'light' && logo.srcDark ? logo.srcDark : logo.src}
-						alt={logo.alt}
+						alt={logo.alt || __SITE_CONFIG__.title}
 						class="h-6"
 					/>
+					{#if logo.appendTitle}
+						<h1 class="text-2xl font-bold ml-2 {style === 'auto' ? 'text-white hover:text-slate-300 dark:text-slate-900 dark:hover:text-slate-600' : style === 'transparent' ? 'text-slate-900 hover:text-slate-600 dark:text-white dark:hover:text-slate-300' : 'text-white hover:text-slate-300'}">{__SITE_CONFIG__.title.endsWith(' ₡ore') ? __SITE_CONFIG__.title.slice(0, -5) : __SITE_CONFIG__.title}</h1>
+					{/if}
 				</a>
 			{:else if __SITE_CONFIG__?.title}
 				<a href="/" class={`flex items-center flex-shrink-0 ${orientation === 'vertical' ? 'lg:mb-6' : ''}`}>
-					<h1 class="text-2xl font-bold {style === 'auto' ? 'text-white hover:text-slate-300 dark:text-slate-900 dark:hover:text-slate-600' : style === 'transparent' ? 'text-slate-900 hover:text-slate-600 dark:text-white dark:hover:text-slate-300' : 'text-white hover:text-slate-300'}">{__SITE_CONFIG__.title}</h1>
+					<h1 class="text-2xl font-bold {style === 'auto' ? 'text-white hover:text-slate-300 dark:text-slate-900 dark:hover:text-slate-600' : style === 'transparent' ? 'text-slate-900 hover:text-slate-600 dark:text-white dark:hover:text-slate-300' : 'text-white hover:text-slate-300'}">{__SITE_CONFIG__.title.endsWith(' ₡ore') ? __SITE_CONFIG__.title.slice(0, -5) : __SITE_CONFIG__.title}</h1>
 				</a>
 			{/if}
 			<!-- Desktop Navigation - Hidden on sm and md, visible on lg+ -->

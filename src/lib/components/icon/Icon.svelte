@@ -29,7 +29,7 @@
 {#if IconComponent}
 	<IconComponent class={className} />
 {:else if iconInsertion}
-	<span class={className}>{@html iconInsertion}</span>
+	<span class={`inline-block ${className}`}>{@html iconInsertion}</span>
 {:else}
 	<span class={`text-center ${className}`}>×</span>
 {/if}

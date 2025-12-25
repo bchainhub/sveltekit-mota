@@ -147,7 +147,24 @@ const siteConfig: Config = {
 		title: 'auth.login',
 		icon: 'login',
 		strategy: 'passkey',
-		provider: 'corepass'
+		passkey: {
+			aaguid: [],
+			algorithms: ['ES256', 'ES384', 'ES512', 'RS256', 'RS384', 'RS512', 'PS256', 'PS384', 'PS512'],
+			attestation: 'none', // None attestation - privacy-friendly
+			authenticatorAttachment: 'cross-platform', // Allow both built-in and external authenticators (QR code)
+			origin: 'https://mota.web', // Origin of the passkey
+			residentKey: 'preferred', // Discoverable credentials preferred
+			rpId: 'mota.web', // RP ID of the passkey
+			rpName: 'MOTA', // RP Name of the passkey
+			timeout: 60000, // 60 seconds timeout
+			userVerification: 'required', // Must perform biometric/PIN check
+		},
+		web3: {
+			provider: 'corepass',
+			methods: {
+				requestAccounts: 'xcb_requestAccounts'
+			}
+		}
 	},
 	language: languageConfig
 };

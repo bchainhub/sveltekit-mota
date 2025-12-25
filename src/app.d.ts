@@ -43,6 +43,30 @@ declare module 'vite-plugin-config' {
 			provider?: string;
 			strategy?: 'passkey' | 'web3';
 			className?: string;
+			passkey?: {
+				aaguid?: string[];
+				algorithms?: string[];
+				attestation?: 'none' | 'indirect' | 'direct';
+				authenticatorAttachment?: 'platform' | 'cross-platform';
+				origin?: string;
+				residentKey?: 'required' | 'preferred';
+				rpId?: string;
+				rpName?: string;
+				timeout?: number;
+				userVerification?: 'required' | 'preferred' | 'discouraged';
+			};
+			web3?: {
+				provider?: string;
+				chainId?: number;
+				accountId?: string;
+				methods?: Record<string, string>;
+			};
+			topMenu?: {
+				items?: NavbarItem[];
+			};
+			sideMenu?: {
+				items?: NavbarItem[];
+			};
 		};
 		language?: {
 			enabled?: boolean;

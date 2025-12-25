@@ -27,7 +27,7 @@
 </script>
 
 {#if IconComponent}
-	<IconComponent class={className} />
+	<svelte:component this={IconComponent} class={className} />
 {:else if iconInsertion}
 	<span class={`inline-block ${className}`}>{@html iconInsertion}</span>
 {:else}

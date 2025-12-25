@@ -14,7 +14,7 @@
 		autoLogin,
 		connectWallet,
 		disconnectWallet
-	} from '$lib/helpers/wallet';
+	} from '$lib/helpers/auth/web3';
 
 	const {
 		logo,

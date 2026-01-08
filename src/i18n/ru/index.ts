@@ -91,6 +91,35 @@ const ruPartial: DeepPartial<Translation> = {
 		profile: 'Профиль',
 		settings: 'Настройки',
 		connect: 'Подключить'
+	},
+
+	support: {
+		title: 'Поддержка',
+		supportType: 'Тип поддержки',
+		askAI: 'Спросить ИИ',
+		createTicket: 'Создать тикет',
+		subject: 'Тема',
+		question: 'Вопрос',
+		followUpQuestion: 'Дополнительный вопрос',
+		askYourQuestion: 'Задайте свой вопрос…',
+		send: 'Отправить',
+		processing: 'Обработка…',
+		sendTicketByEmail: 'Отправить тикет по электронной почте',
+		aiResponse: 'Ответ ИИ',
+		errors: {
+			pleaseEnterYourQuestion: 'Пожалуйста, введите ваш вопрос',
+			aiServiceNotAvailable: 'Сервис ИИ недоступен',
+			supportEmailNotConfigured: 'Электронная почта поддержки не настроена',
+			anErrorOccurredWhileAskingAI: 'Произошла ошибка при обращении к ИИ',
+			failedToGetAIResponse: 'Не удалось получить ответ от ИИ',
+			supportIsNotAvailable: 'Поддержка недоступна'
+		},
+		subjects: {
+			general: 'Общие',
+			payments: 'Платежи',
+			refunds: 'Возвраты',
+			other: 'Другое'
+		}
 	}
 
 };

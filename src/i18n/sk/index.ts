@@ -91,6 +91,35 @@ const skPartial: DeepPartial<Translation> = {
 		profile: 'Profil',
 		settings: 'Nastavenia',
 		connect: 'Pripojiť'
+	},
+
+	support: {
+		title: 'Podpora',
+		supportType: 'Typ podpory',
+		askAI: 'Opýtať sa AI',
+		createTicket: 'Vytvoriť tiket',
+		subject: 'Predmet',
+		question: 'Otázka',
+		followUpQuestion: 'Doplňujúca otázka',
+		askYourQuestion: 'Zadajte svoju otázku…',
+		send: 'Odoslať',
+		processing: 'Spracováva sa…',
+		sendTicketByEmail: 'Odoslať tiket e-mailom',
+		aiResponse: 'Odpoveď AI',
+		errors: {
+			pleaseEnterYourQuestion: 'Prosím, zadajte svoju otázku',
+			aiServiceNotAvailable: 'Služba AI nie je dostupná',
+			supportEmailNotConfigured: 'Podporný e-mail nie je nakonfigurovaný',
+			anErrorOccurredWhileAskingAI: 'Pri komunikácii s AI sa vyskytla chyba',
+			failedToGetAIResponse: 'Nepodarilo sa získať odpoveď od AI',
+			supportIsNotAvailable: 'Podpora nie je dostupná'
+		},
+		subjects: {
+			general: 'Všeobecné',
+			payments: 'Platby',
+			refunds: 'Vrátenie peňazí',
+			other: 'Iné'
+		}
 	}
 
 };

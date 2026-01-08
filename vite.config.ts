@@ -166,6 +166,18 @@ const siteConfig: Config = {
 			}
 		}
 	},
+	support: {
+		enabled: true,
+		email: 'support@bonded.gold',
+		ai: {
+			enabled: true,
+			model: 'gpt-4o-mini',
+			systemMessage: 'You are a helpful support assistant. Provide clear, accurate, and helpful answers.',
+			subjects: ['payments', 'refunds', 'other'],
+			temperature: 0.4,
+			maxTokens: 150
+		}
+	},
 	language: languageConfig
 };
 

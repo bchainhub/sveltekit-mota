@@ -89,6 +89,35 @@ const en: BaseTranslation = {
 		profile: 'Profile',
 		settings: 'Settings',
 		connect: 'Connect'
+	},
+
+	support: {
+		title: 'Support',
+		supportType: 'Support Type',
+		askAI: 'Ask AI',
+		createTicket: 'Create Ticket',
+		subject: 'Subject',
+		question: 'Question',
+		followUpQuestion: 'Follow-up Question',
+		askYourQuestion: 'Ask your question…',
+		send: 'Send',
+		processing: 'Processing…',
+		sendTicketByEmail: 'Send Ticket by Email',
+		aiResponse: 'AI Response',
+		errors: {
+			pleaseEnterYourQuestion: 'Please enter your question',
+			aiServiceNotAvailable: 'AI service is not available',
+			supportEmailNotConfigured: 'Support email is not configured',
+			anErrorOccurredWhileAskingAI: 'An error occurred while asking AI',
+			failedToGetAIResponse: 'Failed to get AI response',
+			supportIsNotAvailable: 'Support is not available'
+		},
+		subjects: {
+			general: 'General',
+			payments: 'Payments',
+			refunds: 'Refunds',
+			other: 'Other'
+		}
 	}
 
 };

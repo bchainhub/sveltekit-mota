@@ -68,6 +68,18 @@ declare module 'vite-plugin-config' {
 				items?: NavbarItem[];
 			};
 		};
+		support?: {
+			enabled?: boolean;
+			email?: string;
+			ai?: {
+				enabled?: boolean;
+				model?: string;
+				systemMessage?: string;
+				subjects?: string[];
+				temperature?: number;
+				maxTokens?: number;
+			};
+		};
 		language?: {
 			enabled?: boolean;
 			icon?: string;

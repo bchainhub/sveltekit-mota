@@ -7,3 +7,4 @@ export { Submenu, SubmenuCompact } from './submenu';
 export { ListBox } from './list-box';
 export { Switch } from './switch';
 export { Toast, toast } from './toast';
+export { Tooltip } from './tooltip';
